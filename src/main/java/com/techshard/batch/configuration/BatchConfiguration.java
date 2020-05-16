@@ -37,9 +37,9 @@ public class BatchConfiguration {
     public FlatFileItemReader<Voltage> reader() {
         return new FlatFileItemReaderBuilder<Voltage>()
                 .name("voltItemReader")
-                .resource(new ClassPathResource("Volts.csv"))
+                .resource(new ClassPathResource("Volts.txt"))
                 .delimited()
-                .names(new String[]{"volt", "time"})
+                .names(new String[]{"segmentid", "aeid", "segmenttype", "classification", "description"})
                 .lineMapper(lineMapper())
                 .fieldSetMapper(new BeanWrapperFieldSetMapper<Voltage>() {{
                     setTargetType(Voltage.class);
@@ -54,7 +54,7 @@ public class BatchConfiguration {
         final DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
         lineTokenizer.setDelimiter(";");
         lineTokenizer.setStrict(false);
-        lineTokenizer.setNames(new String[] {"volt","time"});
+        lineTokenizer.setNames(new String[] {"segmentid", "aeid", "segmenttype", "classification", "description"});
 
         final VoltageFieldSetMapper fieldSetMapper = new VoltageFieldSetMapper();
         defaultLineMapper.setLineTokenizer(lineTokenizer);
@@ -72,7 +72,7 @@ public class BatchConfiguration {
     public JdbcBatchItemWriter<Voltage> writer(final DataSource dataSource) {
         return new JdbcBatchItemWriterBuilder<Voltage>()
                 .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-                .sql("INSERT INTO voltage (volt, time) VALUES (:volt, :time)")
+                .sql("INSERT INTO voltage (segmentid, aeid, segmenttype, classification, description) VALUES (:segmentid, :aeid, :segmenttype, :classification, :description)")
                 .dataSource(dataSource)
                 .build();
     }

@@ -8,43 +8,72 @@ import java.math.BigDecimal;
 public class Voltage {
 
     @Id
-    @Column (name = "ID", nullable = false)
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column (name = "segmentid", nullable = false)
+    private Long segmentid;
 
     @NotNull
-    @Column (name = "volt", precision = 10, scale = 4, nullable = false)
-    private BigDecimal volt;
+    @Column (name = "aeid", nullable = false)
+    private Long aeid;
 
     @NotNull
-    @Column (name = "time", nullable = false)
-    private double time;
+    @Column (name = "segmenttype", nullable = false)
+    private String segmenttype;
+
+    @Column (name = "classification")
+    private String classification;
+
+    @Column (name = "description")
+    private String description;
+
 
     public Voltage() {
     }
 
-    public Voltage(final BigDecimal volt, final double time) {
-        this.volt = volt;
-        this.time = time;
+    public Voltage(Long segmentid, @NotNull Long aeid, @NotNull String segmenttype, String classification, String description) {
+        this.segmentid = segmentid;
+        this.aeid = aeid;
+        this.segmenttype = segmenttype;
+        this.classification = classification;
+        this.description = description;
     }
 
-    public long getId(){
-        return id;
+    public Long getSegmentid() {
+        return segmentid;
     }
 
-    public BigDecimal getVolt(){
-        return volt;
+    public Long getAeid() {
+        return aeid;
     }
 
-    public void setVolt(final BigDecimal volt){
-        this.volt = volt;
+    public String getSegmenttype() {
+        return segmenttype;
     }
 
-    public double getTime(){
-        return time;
+    public String getClassification() {
+        return classification;
     }
 
-    public void setTime(final double time){
-        this.time = time;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setSegmentid(Long segmentid) {
+        this.segmentid = segmentid;
+    }
+
+    public void setAeid(Long aeid) {
+        this.aeid = aeid;
+    }
+
+    public void setSegmenttype(String segmenttype) {
+        this.segmenttype = segmenttype;
+    }
+
+    public void setClassification(String classification) {
+        this.classification = classification;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

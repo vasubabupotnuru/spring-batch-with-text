@@ -27,10 +27,13 @@ public class NotificationListener extends JobExecutionListenerSupport{
         if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
             LOGGER.info("!!! JOB FINISHED! Time to verify the results");
 
-            jdbcTemplate.query("SELECT volt, time FROM voltage",
+            jdbcTemplate.query("SELECT segmentid, aeid, segmenttype, classification, description FROM voltage",
                     (rs, row) -> new Voltage(
-                            rs.getBigDecimal(1),
-                            rs.getDouble(2))
+                            rs.getLong(1),
+                            rs.getLong(2),
+                            rs.getString(3),
+                            rs.getString(4),
+                            rs.getString(5))
             ).forEach(voltage -> LOGGER.info("Found <" + voltage + "> in the database."));
         }
     }

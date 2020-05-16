@@ -12,8 +12,11 @@ public class VoltageFieldSetMapper implements FieldSetMapper<Voltage> {
     public Voltage mapFieldSet(FieldSet fieldSet) {
         final Voltage voltage = new Voltage();
 
-        voltage.setVolt(fieldSet.readBigDecimal("volt"));
-        voltage.setTime(fieldSet.readDouble("time"));
+        voltage.setSegmentid(fieldSet.readLong("segmentid"));
+        voltage.setAeid(fieldSet.readLong("aeid"));
+        voltage.setSegmenttype(fieldSet.readString("segmenttype"));
+        voltage.setClassification(fieldSet.readString("classification"));
+        voltage.setDescription(fieldSet.readString("description"));
         return voltage;
 
     }

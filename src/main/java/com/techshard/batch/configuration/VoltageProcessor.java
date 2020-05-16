@@ -10,12 +10,20 @@ public class VoltageProcessor implements ItemProcessor<Voltage, Voltage>{
 
     @Override
     public Voltage process(final Voltage voltage) {
-        final BigDecimal volt = voltage.getVolt();
-        final double time = voltage.getTime();
+        final Long segmentid = voltage.getSegmentid();
+        final Long aeid = voltage.getAeid();
+        final String segmenttype = voltage.getSegmenttype();
+        final String classification = voltage.getClassification();
+        final String description = voltage.getDescription();
 
         final Voltage processedVoltage = new Voltage();
-        processedVoltage.setVolt(volt);
-        processedVoltage.setTime(time);
+        processedVoltage.setSegmentid(segmentid);
+        processedVoltage.setAeid(aeid);
+        processedVoltage.setSegmenttype(segmenttype);
+        processedVoltage.setClassification(classification);
+        processedVoltage.setDescription(description);
+
+
         return processedVoltage;
     }
 }
