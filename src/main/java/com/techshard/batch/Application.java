@@ -9,11 +9,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
+import javax.annotation.PostConstruct;
 
 @SpringBootApplication(exclude = {BatchAutoConfiguration.class})
-@EnableScheduling
 public class Application extends SpringBootServletInitializer {
     @Autowired
     JobLauncher jobLauncher;
@@ -25,7 +23,7 @@ public class Application extends SpringBootServletInitializer {
         SpringApplication.run(Application.class, args);
     }
 
-    @Scheduled(cron = "0 */1 * * * ?")
+    @PostConstruct
     public void perform() throws Exception {
         JobParameters params = new JobParametersBuilder()
                 .addString("JobID", String.valueOf(System.currentTimeMillis()))
