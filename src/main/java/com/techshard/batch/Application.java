@@ -9,13 +9,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication(exclude = {BatchAutoConfiguration.class})
 public class Application extends SpringBootServletInitializer {
     @Autowired
     JobLauncher jobLauncher;
-
+    
     @Autowired
     Job importVoltageJob;
 
@@ -28,7 +29,9 @@ public class Application extends SpringBootServletInitializer {
         JobParameters params = new JobParametersBuilder()
                 .addString("JobID", String.valueOf(System.currentTimeMillis()))
                 .toJobParameters();
-        jobLauncher.run(importVoltageJob, params);
+        
+		jobLauncher.run(importVoltageJob, params);
+		
     }
 
 }

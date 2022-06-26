@@ -7,6 +7,7 @@ import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -24,17 +25,6 @@ public class NotificationListener extends JobExecutionListenerSupport{
 
     @Override
     public void afterJob(final JobExecution jobExecution) {
-        if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
-            LOGGER.info("!!! JOB FINISHED! Time to verify the results");
-
-            jdbcTemplate.query("SELECT segmentid, aeid, segmenttype, classification, description FROM voltage",
-                    (rs, row) -> new Voltage(
-                            rs.getLong(1),
-                            rs.getLong(2),
-                            rs.getString(3),
-                            rs.getString(4),
-                            rs.getString(5))
-            ).forEach(voltage -> LOGGER.info("Found <" + voltage + "> in the database."));
-        }
+    	System.exit(1);
     }
 }
