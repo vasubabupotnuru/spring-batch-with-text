@@ -8,6 +8,7 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.step.skip.AlwaysSkipItemSkipPolicy;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
@@ -53,6 +54,7 @@ public class BatchConfiguration {
                 .resource(new ClassPathResource(fileName))
                 .delimited()
                 .names(new String[]{"segmentid", "aeid", "segmenttype", "classification", "description"})
+                .recordSeparatorPolicy(new BlankLineRecordSeparatorPolicy())
                 .lineMapper(lineMapperVoltage())
                 .fieldSetMapper(new BeanWrapperFieldSetMapper<Voltage>() {{
                     setTargetType(Voltage.class);
@@ -157,6 +159,9 @@ public class BatchConfiguration {
                 .reader(readerVoltage())
                 .processor(voltageProcessor())
                 .writer(writer)
+                .faultTolerant()
+                .skipPolicy(new AlwaysSkipItemSkipPolicy())
+                .listener(new StepSkipListener())
                 .build();
     }
     
@@ -168,8 +173,8 @@ public class BatchConfiguration {
                 .processor(employeeProcessor())
                 .writer(writer)
                 .faultTolerant()
-                .skipLimit(1)
-                .skip(Exception.class)
+                .skipPolicy(new AlwaysSkipItemSkipPolicy())
+                .listener(new StepSkipListener())
                 .build();
     }
 }
